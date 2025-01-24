@@ -1,0 +1,105 @@
+/* Container around the entire shop */
+.shop-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  /* Title and subtitle */
+  .shop-title {
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  
+  .shop-subtitle {
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  /* Grid to hold the product cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    align-items: stretch; /* Force each card to stretch to the same row height */
+  }
+  
+  /* Individual card styles */
+  .card {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+  }
+  
+  /* Let the 'body' grow so the button can sit at the bottom */
+  .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure the button is at the bottom */
+  }
+  
+  /* Product image */
+  .card-image {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  
+   /* Title, author, and description */
+   .card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .card-author {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  
+  .card-description {
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+  
+  /* Purchase button */
+  .card-button {
+    background-color: #0070f3;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    align-self: center; /* Center the button horizontally */
+    width: 100%; /* Ensure the button takes the full width */
+    text-align: center; /* Center the text inside the button */
+    text-decoration: none; /* Remove underline from the text */
+  }
+  
+  .card-button:hover {
+    background-color: #0057b7;
+  }
+  
+  .card-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.3);
+  }
+  
+  .card-button:active {
+    background-color: #004c9b;
+  }

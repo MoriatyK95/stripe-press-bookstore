@@ -1,63 +1,46 @@
-.checkout-container {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .checkout-title {
-    font-size: 2em;
-    margin-bottom: 20px;
-  }
-  
-  .checkout-book-title {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    color: #6c757d;
-  }
-  
-  .checkout-total {
-    font-size: 1.2em;
-    margin-top: 20px;
-    color: #17a2b8;
-  }
-  
-  .checkout-form {
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 5px;
-  }
-  
-  .checkout-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .checkout-form input {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .checkout-form .stripe-element {
-    border: 1px dashed #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    color: #6c757d;
-  }
-  
-  .checkout-form button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    font-size: 1.25em;
-  }
+/* Form container */
+.checkout-form {
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 5px;
+}
+
+/* Form labels */
+.checkout-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Form inputs */
+.checkout-form input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Stripe element placeholder */
+.checkout-form .stripe-element {
+  border: 1px dashed #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  color: #6c757d;
+}
+
+/* Submit button */
+.checkout-form button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1.25em;
+}

@@ -1,0 +1,25 @@
+/* Container for the checkout page */
+.checkout-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Title for the checkout page */
+  .checkout-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  /* Book title on the checkout page */
+  .checkout-book-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #6c757d;
+  }
+  
+  /* Total amount due */
+  .checkout-total {
+    font-size: 1.2em;
+    margin-top: 20px;
+    color: #17a2b8;
+  }

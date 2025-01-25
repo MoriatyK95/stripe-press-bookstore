@@ -4,8 +4,16 @@ Author: Huakai Zeng
 Description: This Flask app serves as the backend for the Stripe Press Bookstore application.
 """
 
-
+import os
 from flask import Flask, request, jsonify
+import stripe
+from dotenv import load_dotenv, find_dotenv
+
+
+
+load_dotenv(find_dotenv())
+# Set the Stripe secret key
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 app = Flask(__name__)
 
@@ -22,6 +30,15 @@ def checkout():
 @app.route('/success', methods=['GET'])
 def success():
   return "Success"
+
+
+# Create stripe Payment Intent and return client secret
+@app.route('/create-payment-intent', methods=['POST'])
+def create_payment_intent():
+
+    return jsonify({'clientSecret': 'client_secret_example'})
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

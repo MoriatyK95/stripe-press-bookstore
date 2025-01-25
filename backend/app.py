@@ -35,8 +35,20 @@ def success():
 # Create stripe Payment Intent and return client secret
 @app.route('/create-payment-intent', methods=['POST'])
 def create_payment_intent():
+    try:
+        data = request.get_json()
+        amount = data['amount']
+        currency = data['currency']
 
-    return jsonify({'clientSecret': 'client_secret_example'})
+        payment_intent = stripe.PaymentIntent.create(
+            amount=amount,
+            currency=currency,
+        )
+
+        return jsonify({'clientSecret': payment_intent.client_secret})
+    except Exception as e:
+        return jsonify(error=str(e)), 403
+
 
 
 

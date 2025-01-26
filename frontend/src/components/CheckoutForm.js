@@ -26,17 +26,15 @@ const CheckoutForm = ({ book, clientSecret }) => {
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: 'http://localhost:3000/success',
         payment_method_data: {
           billing_details: {
             email: event.target.email.value,
           },
         },
       },
+      redirect: 'if_required'
     });
 
-    // FROM STRIPE DOCUMENTATION:  https://docs.stripe.com/payments/quickstart?client=react
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
     // your `return_url`. For some payment methods like iDEAL, your customer will
@@ -94,10 +92,9 @@ const CheckoutForm = ({ book, clientSecret }) => {
 // use memo to memoize the CheckoutFormWrapper component, in order to prevent unnecessary re-renders 
 const CheckoutFormWrapper = React.memo(({ book }) => {
   const [stripePromise, setStripePromise] = useState(null);
-
   // Initializes the clientSecret state with the value from local storage if it exists. If not, it initializes it to an empty string.
   const [clientSecret, setClientSecret] = useState('');
-
+  
   useEffect(() => {
     // Clear the clientSecret from local storage to ensure a new payment intent is created
     localStorage.removeItem('clientSecret');
@@ -125,7 +122,7 @@ const CheckoutFormWrapper = React.memo(({ book }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount: book.price * 100, currency: 'sgd' }), // amount in cents
+        body: JSON.stringify({ amount: book.price * 100, currency: 'usd' }), // amount in cents
       })
         .then(response => response.json())
         .then(data => {
@@ -136,12 +133,10 @@ const CheckoutFormWrapper = React.memo(({ book }) => {
     }
   }, [book.id, clientSecret]);
 
-  // Set the appearance of the PaymentElement
   const appearance = {
     theme: 'stripe',
   };
 
-  // Set the options for the PaymentElement
   const options = {
     clientSecret,
     appearance,

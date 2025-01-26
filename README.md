@@ -54,7 +54,7 @@
 
 ### Flow of the Application
 1. The user visits the shop page and selects items to purchase.
-2. The user proceeds to the checkout page, where they enter their payment details.
+2. The user proceeds to the checkout page, where they enter their payment details and select the payment method
 3. The frontend sends a request to the backend to create a payment intent.
 4. The backend creates the payment intent using the Stripe Payment Intents API and returns the client secret to the frontend.
 5. The frontend uses the client secret to complete the payment process using Stripe.js and React Stripe.js.

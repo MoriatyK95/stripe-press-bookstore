@@ -22,12 +22,12 @@ const Checkout = () => {
     };
   }, []);
 
-  // Get the book ID from the URL parameters
+  // Get the book ID from the URL parameters, i.e. /checkout/:id
   const { id } = useParams();
   // Find the book based on the ID
   const book = books[id];
 
-  // If the book is not found, display an error message
+  // If the book is not found, display an error message, not applicable in this tutorial since we hard coded the book data.
   if (!book) {
     return <h2>Book not found</h2>;
   }

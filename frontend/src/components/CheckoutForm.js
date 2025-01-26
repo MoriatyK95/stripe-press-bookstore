@@ -17,6 +17,10 @@ const CheckoutForm = ({ book }) => {
   // State to track if the payment has succeeded
   const [paymentSucceeded, setPaymentSucceeded] = useState(false);
 
+  // State to store the payment details for Success component
+  const [paymentDetails, setPaymentDetails] = useState(null);
+
+  // Fetch the client secret from the server
   useEffect(() => {
     if (!clientSecret) {
       // Create PaymentIntent when the component mounts
@@ -62,13 +66,17 @@ const CheckoutForm = ({ book }) => {
     } else if (paymentIntent.status === 'succeeded') {
       console.log('Payment succeeded:', paymentIntent);
       setPaymentSucceeded(true); // Navigate to the success page
+      setPaymentDetails({
+        amount: book.price,
+        paymentIntentId: paymentIntent.id,
+      });
     }
   };
 
   return (
     <div className="checkout-form">
       {paymentSucceeded ? (
-        <Success />
+        <Success paymentDetails={paymentDetails} />
       ) : (
         <form onSubmit={handleSubmit}>
           <label>Email address</label>

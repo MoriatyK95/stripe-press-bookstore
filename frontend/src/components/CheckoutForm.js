@@ -2,14 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import './CheckoutForm.css';
+import Success from './Success';
 
 // CheckoutForm component
 const CheckoutForm = ({ book }) => {
   const [clientSecret, setClientSecret] = useState('');
+
+  // Get a reference to the Stripe object
   const stripe = useStripe();
 
   // Get a reference to the Elements component from Stripe
   const elements = useElements();
+
+  // State to track if the payment has succeeded
+  const [paymentSucceeded, setPaymentSucceeded] = useState(false);
 
   useEffect(() => {
     if (!clientSecret) {
@@ -55,24 +61,29 @@ const CheckoutForm = ({ book }) => {
       console.error('Payment failed:', error);
     } else if (paymentIntent.status === 'succeeded') {
       console.log('Payment succeeded:', paymentIntent);
+      setPaymentSucceeded(true); // Navigate to the success page
     }
   };
 
   return (
     <div className="checkout-form">
-      <form onSubmit={handleSubmit}>
-        <label>Email address</label>
-        <input
-          name="email"
-          type="email"
-          placeholder="you@email.com"
-        />
-        <label>Card details</label>
-        <CardElement className="stripe-element" />
-        <button type="submit" disabled={!stripe || !clientSecret}>
-          Pay ${book.price.toFixed(2)}
-        </button>
-      </form>
+      {paymentSucceeded ? (
+        <Success />
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <label>Email address</label>
+          <input
+            name="email"
+            type="email"
+            placeholder="you@email.com"
+          />
+          <label>Card details</label>
+          <CardElement className="stripe-element" />
+          <button type="submit" disabled={!stripe || !clientSecret}>
+            Pay ${book.price.toFixed(2)}
+          </button>
+        </form>
+      )}
     </div>
   );
 };

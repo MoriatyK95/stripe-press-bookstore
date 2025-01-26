@@ -43,6 +43,7 @@ const CheckoutForm = ({ book, clientSecret }) => {
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
     if (error) {
+      console.error('Payment error:', error);  // Add logging for errors
       if (error.type === 'card_error' || error.type === 'validation_error') {
         setMessage(error.message);
       } else {
@@ -93,12 +94,14 @@ const CheckoutForm = ({ book, clientSecret }) => {
 // use memo to memoize the CheckoutFormWrapper component, in order to prevent unnecessary re-renders 
 const CheckoutFormWrapper = React.memo(({ book }) => {
   const [stripePromise, setStripePromise] = useState(null);
-  
 
-  //initializes the clientSecret state with the value from local storage if it exists. If not, it initializes it to an empty string.
-  const [clientSecret, setClientSecret] = useState(localStorage.getItem('clientSecret') || '');
+  // Initializes the clientSecret state with the value from local storage if it exists. If not, it initializes it to an empty string.
+  const [clientSecret, setClientSecret] = useState('');
 
   useEffect(() => {
+    // Clear the clientSecret from local storage to ensure a new payment intent is created
+    localStorage.removeItem('clientSecret');
+
     // Fetch the publishable key from the server, /api/config endpoint, and set the Stripe promise
     fetch('http://127.0.0.1:5000/api/config')
       .then(response => response.json())
@@ -122,7 +125,7 @@ const CheckoutFormWrapper = React.memo(({ book }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount: book.price * 100, currency: 'usd' }), // amount in cents
+        body: JSON.stringify({ amount: book.price * 100, currency: 'sgd' }), // amount in cents
       })
         .then(response => response.json())
         .then(data => {

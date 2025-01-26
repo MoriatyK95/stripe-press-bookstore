@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import CheckoutForm from './CheckoutForm';
 import './Checkout.css';
@@ -12,6 +12,16 @@ const books = {
 
 // Checkout component
 const Checkout = () => {
+  // Log when the component renders
+  console.log('Checkout component rendered');
+
+  useEffect(() => {
+    console.log('Checkout component mounted');
+    return () => {
+      console.log('Checkout component unmounted');
+    };
+  }, []);
+
   // Get the book ID from the URL parameters
   const { id } = useParams();
   // Find the book based on the ID

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css'; // Import the global CSS file
 import Shop from './components/Shop';
@@ -7,8 +7,6 @@ import Success from './components/Success';
 
 // Main App component
 const App = () => {
-
-
   return (
     <Router>
       <Switch>

@@ -12,7 +12,7 @@
 ### Build
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/stripe-press-bookstore.git
+    git clone https://github.com/moriatyk95/stripe-press-bookstore.git
     cd stripe-press-bookstore
     ```
 2. Install dependencies:
@@ -49,16 +49,21 @@
 
 ### Application Architecture
 - **Client**: The client is built using React and is located in the `frontend` directory. It includes components for the shop, checkout, and success pages. The frontend communicates with the backend to create payment intents and retrieve the publishable key.
+
 - **Server**: The server is built using Flask and is located in the `backend` directory. In this simple application, it includes routes for creating payment intents and retrieving Stripe's publishable key.
-- **Communication**: The frontend and backend communicate via HTTP requests. The frontend sends requests to the backend to create payment intents and retrieve the publishable key. The backend processes these requests and interacts with the Stripe API to perform the necessary actions. Since this is a simple application without a database, there are no routes to retrieve book data. In a production application, an OLTP database would be used to store book data.
+
+- **Communication**: The frontend and backend communicate via HTTP requests. The frontend sends requests to the backend to create payment intents and retrieve the publishable key. The Flask application, with CORS enabled for the api/config and api/create-payment-intent routes, processes these requests and interacts with the Stripe API to perform the necessary actions. Since this is a simple application without a database, there are no routes to retrieve book data. In a production application, an OLTP database would be used to store and manage book and other application data.
 
 ### Flow of the Application
 1. The user visits the shop page and selects items to purchase.
+    ![Shop Page](flow-screenshots/shop.png)
 2. The user proceeds to the checkout page, where they enter their payment details and select the payment method.
+    ![Checkout Page](flow-screenshots/checkout.png)
 3. The frontend sends a request to the backend to create a payment intent.
 4. The backend creates the payment intent using the Stripe Payment Intents API and returns the client secret to the frontend.
 5. The frontend uses the client secret to complete the payment process using Stripe.js and React Stripe.js.
 6. Upon successful payment, the success component renders and shows the user a message confirming payment is successful as well as displaying the total amount and payment intent id.
+    ![Success Page](flow-screenshots/success.png)
 
 ## How I Approached This Problem
 
@@ -87,5 +92,5 @@
 ### Challenges Encountered
 1. **Managing State in React**: Managing state in React, particularly within the `CheckoutForm` and `CheckoutFormWrapper` component, presented several challenges. The complexity arose from the need to track multiple states. This required careful planning and the use of React's state management tools to ensure that the component remained responsive and the user experience was smooth.
 
-2. **Handling Multiple Payment Methods**: Initially, I implemented the payment process using only the `CardElement` to quickly get the application up and running. However, to better reflect real-world scenarios, especially in regions like Southeast Asia and Greater China where payment methods such as PayNow, GrabPay, and Alipay are prevalent, I decided to support multiple payment methods. This necessitated refactoring the `CheckoutForm` component to use the `PaymentElement`, which supports a variety of payment methods. This change required significant adjustments to the component's logic to handle the different payment flows seamlessly.
+2. **Handling Multiple Payment Methods**: Initially, I implemented the payment process using only the `CardElement` to quickly get the application up and running. However, to better reflect real-world scenarios, especially in regions like Southeast Asia and Greater China where payment methods such as PayNow, GrabPay, and Alipay are prevalent, I decided to support multiple payment methods. This necessitated refactoring the `CheckoutForm` component to use the `PaymentElement`, which supports a variety of payment methods.
 

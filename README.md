@@ -64,6 +64,7 @@
 5. The frontend uses the client secret to complete the payment process using Stripe.js and React Stripe.js.
 6. Upon successful payment, the success component renders and shows the user a message confirming payment is successful as well as displaying the total amount and payment intent id.
     ![Success Page](flow-screenshots/success.png)
+    ![Verify transaction on Stripe](flow-screenshots/verifiedonStripeTransactions.png)
 
 ## How I Approached This Problem
 

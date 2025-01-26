@@ -1,4 +1,3 @@
-
 """
 Author: Huakai Zeng
 Description: This Flask app serves as the backend for the Stripe Press Bookstore application.
@@ -31,6 +30,14 @@ def checkout():
 def success():
   return "Success"
 
+# Retrieve the publishable key to send to the client
+@app.route('/config', methods=['GET'])
+def get_publishable_key():
+    try:
+        publishable_key = os.getenv('STRIPE_PUBLISHABLE_KEY')
+        return jsonify({'publishableKey': publishable_key})
+    except Exception as e:
+        return jsonify(error=str(e)), 403
 
 # Create stripe Payment Intent and return client secret
 @app.route('/create-payment-intent', methods=['POST'])

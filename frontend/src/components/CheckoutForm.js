@@ -1,76 +1,67 @@
 import React, { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import './CheckoutForm.css';
 import Success from './Success';
 
 // CheckoutForm component
-const CheckoutForm = ({ book }) => {
-  const [clientSecret, setClientSecret] = useState('');
-
-  // Get a reference to the Stripe object
+const CheckoutForm = ({ book, clientSecret }) => {
   const stripe = useStripe();
-
-  // Get a reference to the Elements component from Stripe
   const elements = useElements();
-
-  // State to track if the payment has succeeded
+  const [message, setMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [paymentSucceeded, setPaymentSucceeded] = useState(false);
-
-  // State to store the payment details for Success component
   const [paymentDetails, setPaymentDetails] = useState(null);
 
-  // Fetch the client secret from the server
-  useEffect(() => {
-    if (!clientSecret) {
-      // Create PaymentIntent when the component mounts
-      fetch('http://127.0.0.1:5000/api/create-payment-intent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ amount: book.price * 100, currency: 'usd' }), // amount in cents
-      })
-        // Parse the JSON response, and set the client secret
-        .then(response => response.json())
-        .then(data => setClientSecret(data.clientSecret))
-        // Log any errors to the console
-        .catch(error => console.error('Error creating payment intent:', error));
-    }
-  }, [clientSecret, book.price]); // Run only once when the component mounts
-
-
-  // Handle the form submission, confirm the card payment
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Do not proceed if Stripe or Elements have not loaded 
+    // Do not proceed if Stripe.js has not loaded yet
     if (!stripe || !elements) {
       return;
     }
 
-    const cardElement = elements.getElement(CardElement);
+    setIsLoading(true);
 
-    // Confirm the card payment
-    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: cardElement,
-        billing_details: {
-          email: event.target.email.value,
+    const { error, paymentIntent } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        // Make sure to change this to your payment completion page
+        return_url: 'http://localhost:3000/success',
+        payment_method_data: {
+          billing_details: {
+            email: event.target.email.value,
+          },
         },
       },
     });
 
+    // FROM STRIPE DOCUMENTATION:  https://docs.stripe.com/payments/quickstart?client=react
+    // This point will only be reached if there is an immediate error when
+    // confirming the payment. Otherwise, your customer will be redirected to
+    // your `return_url`. For some payment methods like iDEAL, your customer will
+    // be redirected to an intermediate site first to authorize the payment, then
+    // redirected to the `return_url`.
     if (error) {
-      console.error('Payment failed:', error);
-    } else if (paymentIntent.status === 'succeeded') {
+      if (error.type === 'card_error' || error.type === 'validation_error') {
+        setMessage(error.message);
+      } else {
+        setMessage('An unexpected error occurred.');
+      }
+    } else if (paymentIntent && paymentIntent.status === 'succeeded') {
       console.log('Payment succeeded:', paymentIntent);
-      setPaymentSucceeded(true); // Navigate to the success page
+      setPaymentSucceeded(true);
       setPaymentDetails({
         amount: book.price,
         paymentIntentId: paymentIntent.id,
       });
     }
+
+    setIsLoading(false);
+  };
+
+  const paymentElementOptions = {
+    layout: 'accordion',
   };
 
   return (
@@ -78,18 +69,21 @@ const CheckoutForm = ({ book }) => {
       {paymentSucceeded ? (
         <Success paymentDetails={paymentDetails} />
       ) : (
-        <form onSubmit={handleSubmit}>
+        <form id="payment-form" onSubmit={handleSubmit}>
           <label>Email address</label>
           <input
             name="email"
             type="email"
             placeholder="you@email.com"
           />
-          <label>Card details</label>
-          <CardElement className="stripe-element" />
-          <button type="submit" disabled={!stripe || !clientSecret}>
-            Pay ${book.price.toFixed(2)}
+          <PaymentElement id="payment-element" options={paymentElementOptions} />
+          <button disabled={isLoading || !stripe || !elements} id="submit">
+            <span id="button-text">
+              {isLoading ? <div className="spinner" id="spinner"></div> : 'Pay now'}
+            </span>
           </button>
+          {/* Show any error or success messages */}
+          {message && <div id="payment-message">{message}</div>}
         </form>
       )}
     </div>
@@ -99,6 +93,10 @@ const CheckoutForm = ({ book }) => {
 // use memo to memoize the CheckoutFormWrapper component, in order to prevent unnecessary re-renders 
 const CheckoutFormWrapper = React.memo(({ book }) => {
   const [stripePromise, setStripePromise] = useState(null);
+  
+
+  //initializes the clientSecret state with the value from local storage if it exists. If not, it initializes it to an empty string.
+  const [clientSecret, setClientSecret] = useState(localStorage.getItem('clientSecret') || '');
 
   useEffect(() => {
     // Fetch the publishable key from the server, /api/config endpoint, and set the Stripe promise
@@ -111,17 +109,46 @@ const CheckoutFormWrapper = React.memo(({ book }) => {
           throw new Error('Publishable key not found');
         }
       })
-      // Log any other errors to the console
       .catch(error => {
         console.error('Error fetching publishable key:', error);
       });
   }, []);
 
+  useEffect(() => {
+    if (!clientSecret) {
+      // Create PaymentIntent when the component mounts
+      fetch('http://127.0.0.1:5000/api/create-payment-intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ amount: book.price * 100, currency: 'usd' }), // amount in cents
+      })
+        .then(response => response.json())
+        .then(data => {
+          setClientSecret(data.clientSecret);
+          localStorage.setItem('clientSecret', data.clientSecret);
+        })
+        .catch(error => console.error('Error creating payment intent:', error));
+    }
+  }, [book.id, clientSecret]);
+
+  // Set the appearance of the PaymentElement
+  const appearance = {
+    theme: 'stripe',
+  };
+
+  // Set the options for the PaymentElement
+  const options = {
+    clientSecret,
+    appearance,
+  };
+
   // Render the CheckoutForm component with the Stripe promise
   return (
-    stripePromise && (
-      <Elements stripe={stripePromise}>
-        <CheckoutForm book={book} />
+    stripePromise && clientSecret && (
+      <Elements stripe={stripePromise} options={options}>
+        <CheckoutForm book={book} clientSecret={clientSecret} />
       </Elements>
     )
   );

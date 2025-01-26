@@ -55,9 +55,13 @@ def create_payment_intent():
         payment_intent = stripe.PaymentIntent.create(
             amount=amount,
             currency=currency,
+            automatic_payment_methods={
+                'enabled': True,
+            },
         )
-
+        print(payment_intent)  # Add logging to check the response
         return jsonify({'clientSecret': payment_intent.client_secret})
+    
     except Exception as e:
         return jsonify(error=str(e)), 403
 

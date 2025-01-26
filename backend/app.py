@@ -59,10 +59,11 @@ def create_payment_intent():
                 'enabled': True,
             },
         )
-        print(payment_intent)  # Add logging to check the response
+        print(f"PaymentIntent created: {payment_intent}")  # Add logging to check the response
         return jsonify({'clientSecret': payment_intent.client_secret})
     
     except Exception as e:
+        print(f"Error creating PaymentIntent: {e}")  # Add logging for errors
         return jsonify(error=str(e)), 403
 
 if __name__ == "__main__":

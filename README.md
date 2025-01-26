@@ -54,8 +54,38 @@
 
 ### Flow of the Application
 1. The user visits the shop page and selects items to purchase.
-2. The user proceeds to the checkout page, where they enter their payment details and select the payment method
+2. The user proceeds to the checkout page, where they enter their payment details and select the payment method.
 3. The frontend sends a request to the backend to create a payment intent.
 4. The backend creates the payment intent using the Stripe Payment Intents API and returns the client secret to the frontend.
 5. The frontend uses the client secret to complete the payment process using Stripe.js and React Stripe.js.
-6. Upon successful payment, the success component renderes and shows the user a message confirming payment is successful as well as displaying the total amount and payment intent id.
+6. Upon successful payment, the success component renders and shows the user a message confirming payment is successful as well as displaying the total amount and payment intent id.
+
+## How I Approached This Problem
+
+### Approach
+1. **Understanding Requirements**: I began by thoroughly understanding the project requirements. After cloning the boilerplate and running the application to get a sense of its functionality, I noted that this is a relatively simple application. In a real-world scenario, there might be additional requirements. For instance, instead of a straightforward e-commerce platform selling books directly to customers, we might have a marketplace where users can be both merchants and customers. In such cases, it would be crucial to understand the specific requirements of the platform, such as the geographical locations of the users, preferred payment methods, and compliance with regulations like Strong Customer Authentication (SCA).
+
+2. **Setting Up the Environment**: I decided to separate the client and server components of this application to better mimic real-world projects. Separating the frontend and backend offers several advantages, such as improved scalability, easier maintenance, and the ability to deploy them independently. This separation allows for a more modular architecture, where each part of the application can be developed, tested, and scaled individually. (I did not set up CI pipeline since this is a small application, but in real world application, set up a CI pipeline with test cases) Additionally, it aligns with best practices in modern web development, where microservices and decoupled architectures are becoming increasingly common.
+
+3. **Implementing the Backend**: I implemented the backend using Flask, creating routes to handle payment intents and retrieve the publishable key. 
+
+4. **Implementing the Frontend**: I implemented the frontend using React, creating components for the shop, checkout, and success components. I integrated Stripe.js and React Stripe.js to handle payment processing and using Stripe elements.
+
+5. **Testing**: All test card numbers for payment failure tested (Card Declined, Insufficient Funds, incorrect CVC, Expired Card, Processing failure, fraudulent)
+
+### Documentation Used
+- **Stripe Documentation**: 
+  - [Stripe Payment Intents API](https://stripe.com/docs/api/payment_intents)
+  - [Stripe.js and React Stripe.js](https://stripe.com/docs/stripe-js/react)
+  - [Payment method integration options](https://docs.stripe.com/payments/payment-methods/integration-options)
+  - [Element appearance](https://docs.stripe.com/elements/appearance-api)
+- **Stripe Developers Youtube Channel**:
+  - [Accept a payment - Create a PaymentIntent with Python](https://www.youtube.com/watch?v=3s4Dwox7oTQ)
+  - [React Stripe.js and the Payment Element](https://www.youtube.com/watch?v=e-whXipfRvg)
+
+
+### Challenges Encountered
+1. **Managing State in React**: Managing state in React, particularly within the `CheckoutForm` and `CheckoutFormWrapper` component, presented several challenges. The complexity arose from the need to track multiple states. This required careful planning and the use of React's state management tools to ensure that the component remained responsive and the user experience was smooth.
+
+2. **Handling Multiple Payment Methods**: Initially, I implemented the payment process using only the `CardElement` to quickly get the application up and running. However, to better reflect real-world scenarios, especially in regions like Southeast Asia and Greater China where payment methods such as PayNow, GrabPay, and Alipay are prevalent, I decided to support multiple payment methods. This necessitated refactoring the `CheckoutForm` component to use the `PaymentElement`, which supports a variety of payment methods. This change required significant adjustments to the component's logic to handle the different payment flows seamlessly.
+

@@ -83,6 +83,10 @@
 
 2. **Handling Multiple Payment Methods**: Initially, I implemented the payment process using only the `CardElement` to quickly get the application up and running. However, to better reflect real-world scenarios, especially in regions like Southeast Asia and Greater China where payment methods such as PayNow, GrabPay, and Alipay are prevalent, I decided to support multiple payment methods. This necessitated refactoring the `CheckoutForm` component to use the `PaymentElement`, which supports a variety of payment methods.
 
+3. **Modularization Adds Complexity**: Initially, I used a single `Checkout` component to handle payment confirmation on the client side. This approach made it easier to track different states, but the code became quite large. Following the take-home project's email instructions to structure the code in a more modular way, I broke the `Checkout` component into smaller components (`CheckoutForm` and `CheckoutFormWrapper`). While this improved code readability, it also increased the complexity of managing the payment flow on the client side.
+
+
+
 ## How I Might Extend This Application
 
 ### Understanding Platform Needs

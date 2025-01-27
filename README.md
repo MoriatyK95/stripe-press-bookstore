@@ -64,7 +64,12 @@
 
 2. **Setting Up the Environment**: I decided to separate the client and server components of this application to better mimic real-world projects. Separating the frontend and backend offers several advantages, such as improved scalability, easier maintenance, and the ability to deploy them independently. This separation allows for a more modular architecture, where each part of the application can be developed, tested, and scaled individually. (I did not set up CI pipeline since this is a small application, but in real world application, set up a CI pipeline with test cases) Additionally, it aligns with best practices in modern web development, where microservices and decoupled architectures are becoming increasingly common.
 
-3. **Development**: Refer to the official documents/videos to understand the main concepts such as creating a payment intent, confirming the client secret, and using the PaymentElement. Commit and push code in small increments, resolving issues as they arise. Identify areas that require further research, such as managing React states in the payment flow. After researching best practices, test the implementation with various scenarios (e.g., refreshing the page at checkout, returning to the shop to ensure expected behavior). Use the Stripe sandbox environment's transaction dashboard to verify the implementation.
+3. **Development**: Follow the official documentation and videos to understand key concepts such as creating a payment intent, confirming the client secret, and using the PaymentElement. Break down the application into smaller parts and build these parts before connecting them:
+
+    - **Client Flow**: Select Shop -> Checkout -> Success
+    - **Payment Flow**: Set up Stripe connections, manage relevant states, create payment intent, confirm payment using PaymentElement
+
+Commit and push code in small increments, addressing issues as they arise. Identify areas needing further research, such as managing React states in the payment flow. After researching best practices, test the implementation with various scenarios (e.g., refreshing the page at checkout, returning to the shop to ensure expected behavior). Use the Stripe sandbox environment's transaction dashboard to verify the implementation.
 
 5. **Testing**: All test card numbers for payment success as well as payment failure tested (Card Declined, Insufficient Funds, incorrect CVC, Expired Card, Processing failure, fraudulent)
 

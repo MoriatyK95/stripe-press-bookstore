@@ -66,7 +66,7 @@
 
 3. **Development**: Follow the official documentation and videos to understand key concepts such as creating a payment intent, confirming the client secret, and using the PaymentElement. Break down the application into smaller parts and build these parts before connecting them:
 
-    - **Client Flow**: Select Shop -> Checkout -> Success
+    - **Client Flow**: Shop -> Checkout -> Success
     - **Payment Flow**: Set up Stripe connections, manage relevant states, create payment intent, confirm payment using PaymentElement
 
 Commit and push code in small increments, addressing issues as they arise. Identify areas needing further research, such as managing React states in the payment flow. After researching best practices, test the implementation with various scenarios (e.g., refreshing the page at checkout, returning to the shop to ensure expected behavior). Use the Stripe sandbox environment's transaction dashboard to verify the implementation.

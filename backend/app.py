@@ -17,19 +17,6 @@ stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 app = Flask(__name__)
 
 
-@app.route("/")
-def home():
-    return "home"
-
-# Checkout route
-@app.route('/checkout', methods=['GET'])
-def checkout():
-    return "Checkout"
-
-# Success route
-@app.route('/success', methods=['GET'])
-def success():
-  return "Success"
 
 # Retrieve the publishable key to send to the client, allow cross-origin requests fro the client
 @app.route('/api/config', methods=['GET'])

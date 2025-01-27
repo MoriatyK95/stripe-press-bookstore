@@ -20,11 +20,15 @@
     STRIPE_PUBLISHABLE_KEY=your_publishable_key
     STRIPE_SECRET_KEY=your_secret_key
     ```
-3. Use the provided script to install dependencies and start both the server and client concurrently:
+3. Make the `start.sh` script executable:
+    ```sh
+    chmod +x start.sh
+    ```
+4. Use the provided script to install dependencies and start both the server and client concurrently:
     ```sh
     ./start.sh
     ```
-4. Open your browser and navigate to `http://localhost:3000` to see the application running.
+5. Open your browser and navigate to `http://localhost:3000` to see the application running.
 
 ## How Does the Solution Work?
 
@@ -93,7 +97,7 @@ Before extending the application, it's crucial to understand both the immediate 
 
 4. **Testing and CI/CD**: Set up a comprehensive testing strategy, including unit tests, integration tests, and end-to-end tests. Additionally, implement a CI/CD pipeline to automate testing and deployment. This ensures that code changes are continuously tested and deployed, reducing the risk of bugs in production.
 
-5. **Application Performance Monitoring (APM) and End User Monitoring**: Set up APM tools like Datadog to monitor the performance of the application and end-user experience. This helps in identifying and resolving performance bottlenecks. 
+5. **Application Performance Monitoring (APM) and End User Monitoring**: Set up APM tools like Datadog to monitor the performance of the application and end-user experience. This helps in identifying and resolving performance bottlenecks.
 
 
 

@@ -111,6 +111,10 @@ Before extending the application, it's crucial to understand both the immediate 
 6. **Integrating Stripe Data for Business Analytics**
 Integrating Stripe data into a cloud data warehouse, such as using the Stripe Snowflake Connector, is crucial for tracking revenue, product performance, and customer behavior. This integration allows for unified analytics across OLAP systems, providing insights that support data-driven decision-making. For an e-commerce platform or marketplace, having access to comprehensive business analytics is essential for understanding customer trends, optimizing product offerings, and driving growth. By leveraging these insights, businesses can make informed decisions that enhance their competitive edge and ensure scalable growth as the platform evolves.
 
+7. **Using Stripe Webhooks**
+Webhooks enable the online bookstore to handle key events such as successful payments, refunds, or subscription changes. For instance, when a payment succeeds, the store can immediately mark an order as fulfilled and initiate the delivery process or send a confirmation email with a discount coupon for the next purchase. If a payment fails, the order can be automatically canceled or placed on hold. This event-driven mechanism ensures better reliability and enhances the customer experience.
+
+
 
 
 

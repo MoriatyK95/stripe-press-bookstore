@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import CheckoutForm from './CheckoutForm';
 import './Checkout.css';
+import CheckoutFormWrapper from './CheckoutForm';
 
 // Mock data for books
 const books = {
@@ -37,7 +37,7 @@ const Checkout = () => {
       <h1 className="checkout-title">Checkout — Stripe Press</h1>
       <p className="checkout-book-title">{book.title}</p>
       <h2 className="checkout-total">Total due: ${book.price.toFixed(2)}</h2>
-      <CheckoutForm book={book} />
+      <CheckoutFormWrapper book={book} />
     </div>
   );
 };

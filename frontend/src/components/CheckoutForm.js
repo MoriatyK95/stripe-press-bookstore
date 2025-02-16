@@ -5,7 +5,7 @@ import './CheckoutForm.css';
 import Success from './Success';
 
 // CheckoutForm component
-const CheckoutForm = ({ book, clientSecret }) => {
+const CheckoutForm = ({ book }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
@@ -146,7 +146,7 @@ const CheckoutFormWrapper = React.memo(({ book }) => {
   return (
     stripePromise && clientSecret && (
       <Elements stripe={stripePromise} options={options}>
-        <CheckoutForm book={book} clientSecret={clientSecret} />
+        <CheckoutForm book={book} />
       </Elements>
     )
   );

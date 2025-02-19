@@ -97,7 +97,7 @@ const CheckoutFormWrapper = React.memo(({ book }) => {
   
   useEffect(() => {
     // Clear the clientSecret from local storage to ensure a new payment intent is created
-    localStorage.removeItem('clientSecret');
+    //localStorage.removeItem('clientSecret');
 
     // Fetch the publishable key from the server, /api/config endpoint, and set the Stripe promise
     fetch('http://127.0.0.1:5000/api/config')
@@ -115,23 +115,24 @@ const CheckoutFormWrapper = React.memo(({ book }) => {
   }, []);
 
   useEffect(() => {
-    if (!clientSecret) {
+    {
       // Create PaymentIntent when the component mounts
       fetch('http://127.0.0.1:5000/api/create-payment-intent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        // Feedback from Stripe, not reccomended to set price on the clientside
         body: JSON.stringify({ amount: book.price * 100, currency: 'usd' }), // amount in cents
       })
         .then(response => response.json())
         .then(data => {
           setClientSecret(data.clientSecret);
-          localStorage.setItem('clientSecret', data.clientSecret);
+          //localStorage.setItem('clientSecret', data.clientSecret);
         })
         .catch(error => console.error('Error creating payment intent:', error));
     }
-  }, [book.id, clientSecret]);
+  }, []);
 
   const appearance = {
     theme: 'stripe',
